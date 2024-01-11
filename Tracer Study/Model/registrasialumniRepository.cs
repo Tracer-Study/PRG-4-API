@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 
 namespace PRG_4_API.Model
 {
@@ -28,7 +29,6 @@ namespace PRG_4_API.Model
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-
                     registrasialumniModel registrasialumni = new registrasialumniModel
                     {
                         id = Convert.ToInt32(reader["id"].ToString()),
@@ -61,6 +61,103 @@ namespace PRG_4_API.Model
             return registrasialumniList;
         }
 
+        public List<yearCount> getAllDataByYears()
+        {
+            List<yearCount> registrasialumniList = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand(
+                    "ts_getCountRegistrasiAlumniBerdasarkanTahun",
+                    _connection
+                );
+                command.CommandType = CommandType.StoredProcedure;
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        value = reader["tahun_lulus"].ToString(),
+                        count = Convert.ToInt32(reader["hitung"].ToString()),
+                    };
+                    registrasialumniList.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return registrasialumniList;
+        }
+
+        public List<yearCount> getAllDataByProdi(int year)
+        {
+            List<yearCount> registrasialumniList = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("ts_getCountRegistrasiAlumniBerdasarkanProdi", _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@year", year);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        value = reader["id"].ToString(),
+                        valueName = reader["nama_prodi"].ToString(),
+                        count = Convert.ToInt32(reader["hitung"].ToString()),
+                    };
+                    registrasialumniList.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return registrasialumniList;
+        }
+        public List<yearCount> getAllDataByStatus()
+        {
+            List<yearCount> registrasialumniList = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("ts_getCountRegistrasiAlumniBerdasarkanStatus", _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        value = reader["status"].ToString(),
+                        count = Convert.ToInt32(reader["hitung"].ToString()),
+                    };
+                    registrasialumniList.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return registrasialumniList;
+        }
+
         public registrasialumniModel getData(int id)
         {
             registrasialumniModel registrasialumnimodel = new registrasialumniModel();
@@ -80,17 +177,25 @@ namespace PRG_4_API.Model
                 registrasialumnimodel.npwp = reader["kode"].ToString();
                 registrasialumnimodel.nama = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.alamat = reader["pertanyaan_utama"].ToString();
-                registrasialumnimodel.tanggal_lahir = Convert.ToDateTime(reader["tanggal_lahir"].ToString());
+                registrasialumnimodel.tanggal_lahir = Convert.ToDateTime(
+                    reader["tanggal_lahir"].ToString()
+                );
                 registrasialumnimodel.tahun_lulus = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.email = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.password = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.status = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.telepon = reader["pertanyaan_utama"].ToString();
                 registrasialumnimodel.created_by = reader["created_by"].ToString();
-                registrasialumnimodel.created_date = Convert.ToDateTime(reader["created_date"].ToString());
+                registrasialumnimodel.created_date = Convert.ToDateTime(
+                    reader["created_date"].ToString()
+                );
                 registrasialumnimodel.modified_by = reader["modified_by"].ToString();
-                registrasialumnimodel.modified_date = Convert.ToDateTime(reader["modified_date"].ToString());
-                registrasialumnimodel.id_kodeProdi = Convert.ToInt32(reader["id_kodeProdi"].ToString());
+                registrasialumnimodel.modified_date = Convert.ToDateTime(
+                    reader["modified_date"].ToString()
+                );
+                registrasialumnimodel.id_kodeProdi = Convert.ToInt32(
+                    reader["id_kodeProdi"].ToString()
+                );
 
                 reader.Close();
                 _connection.Close();

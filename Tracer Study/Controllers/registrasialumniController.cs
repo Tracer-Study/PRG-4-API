@@ -30,6 +30,55 @@ namespace PRG_4_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("/GetAllRegistrasiAlumniByYears", Name = "GetAllRegistrasiAlumniByYears")]
+        public IActionResult GetAllRegistrasiAlumniByYears()
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _registrasialumniRepository.getAllDataByYears();
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+        [HttpGet("/GetAllRegistrasiAlumniByProdi", Name = "GetAllRegistrasiAlumniByProdi")]
+        public IActionResult GetAllRegistrasiAlumniByProdi(int year)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _registrasialumniRepository.getAllDataByProdi(year);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+        [HttpGet("/GetAllRegistrasiAlumniByStatus", Name = "GetAllRegistrasiAlumniByStatus")]
+        public IActionResult GetAllRegistrasiAlumniByStatus()
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _registrasialumniRepository.getAllDataByStatus();
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+
         [HttpGet("/GetRegistrasiAlumni", Name = "GetRegistrasiAlumni")]
         public IActionResult GetRegistrasiAlumni(int id)
         {
