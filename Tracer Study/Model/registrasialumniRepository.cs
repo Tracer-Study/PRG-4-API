@@ -128,6 +128,37 @@ namespace PRG_4_API.Model
             }
             return registrasialumniList;
         }
+        public List<jumlahIsiKuesioner> getIsiKuesioner(int year)
+        {
+            List<jumlahIsiKuesioner> registrasialumniList = new List<jumlahIsiKuesioner>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("ts_getCountJumlahIsiKuesionerBerdasarkanTahun", _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@year", year);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    jumlahIsiKuesioner registrasialumni = new jumlahIsiKuesioner
+                    {
+                        sudah_isi = Convert.ToInt32(reader["jumlah_sudah_isi"].ToString()),
+                        belum_isi = Convert.ToInt32(reader["jumlah_belum_isi"].ToString())
+                    };
+                    registrasialumniList.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return registrasialumniList;
+        }
         public List<yearCount> getAllDataByStatus()
         {
             List<yearCount> registrasialumniList = new List<yearCount>();

@@ -62,6 +62,22 @@ namespace PRG_4_API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("/GetJumlahIsiKuesioner", Name = "GetJumlahIsiKuesioner")]
+        public IActionResult GetJumlahIsiKuesioner(int year)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _registrasialumniRepository.getIsiKuesioner(year);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
         [HttpGet("/GetAllRegistrasiAlumniByStatus", Name = "GetAllRegistrasiAlumniByStatus")]
         public IActionResult GetAllRegistrasiAlumniByStatus()
         {
