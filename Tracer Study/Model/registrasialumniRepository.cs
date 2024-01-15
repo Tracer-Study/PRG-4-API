@@ -61,7 +61,7 @@ namespace PRG_4_API.Model
             return registrasialumniList;
         }
 
-        public List<yearCount> getAllDataByYears()
+        public List<yearCount> getAllDataByYears(int year)
         {
             List<yearCount> registrasialumniList = new List<yearCount>();
 
@@ -70,10 +70,11 @@ namespace PRG_4_API.Model
                 _connection.Open();
 
                 SqlCommand command = new SqlCommand(
-                    "ts_getCountRegistrasiAlumniBerdasarkanTahun",
+                    "ts_getCountRegistrasiAlumniBerdasarkanTahunTerakhir",
                     _connection
                 );
                 command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@SelectedYear", year);
 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())

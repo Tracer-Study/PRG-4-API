@@ -31,13 +31,13 @@ namespace PRG_4_API.Controllers
         }
 
         [HttpGet("/GetAllRegistrasiAlumniByYears", Name = "GetAllRegistrasiAlumniByYears")]
-        public IActionResult GetAllRegistrasiAlumniByYears()
+        public IActionResult GetAllRegistrasiAlumniByYears(int year)
         {
             try
             {
                 response.status = 200;
                 response.message = "Success";
-                response.data = _registrasialumniRepository.getAllDataByYears();
+                response.data = _registrasialumniRepository.getAllDataByYears(year);
             }
             catch (Exception ex)
             {
