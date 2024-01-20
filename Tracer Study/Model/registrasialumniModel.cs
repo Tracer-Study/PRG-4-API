@@ -43,7 +43,7 @@ namespace PRG_4_API.Model
 
         [Required(ErrorMessage = "Password wajib diisi.")]
         [MaxLength(50, ErrorMessage = "Password maksimal 50 karakter.")]
-        public string password { get; set; }
+        public string password { get; set; } = "-";
 
         [Required(ErrorMessage = "Status wajib diisi.")]
         [MaxLength(30, ErrorMessage = "Status maksimal 30 karakter.")]

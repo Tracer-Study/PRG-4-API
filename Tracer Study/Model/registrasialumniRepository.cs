@@ -111,5 +111,50 @@ namespace PRG_4_API.Model
             }
             return registrasialumnimodel;
         }
+
+        public List<registrasialumniModel> getDataRegistrasiAlumniBelumVerifikasi()
+        {
+            List<registrasialumniModel> registrasialumniList = new List<registrasialumniModel>();
+
+            try
+            {
+                string query = "ts_getDataRegistrasiAlumniBelumVerifikasi";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                _connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    registrasialumniModel registrasialumni = new registrasialumniModel
+                    {
+                        id = Convert.ToInt32(reader["id"].ToString()),
+                        nim = reader["nim"].ToString(),
+                        nik = reader["nik"].ToString(),
+                        npwp = reader["npwp"].ToString(),
+                        nama = reader["nama"].ToString(),
+                        alamat = reader["alamat"].ToString(),
+                        tanggal_lahir = Convert.ToDateTime(reader["tanggal_lahir"].ToString()),
+                        tahun_lulus = reader["tahun_lulus"].ToString(),
+                        email = reader["email"].ToString(),
+                        status = reader["status"].ToString(),
+                        telepon = reader["telepon"].ToString(),
+                        created_by = reader["created_by"].ToString(),
+                        created_date = Convert.ToDateTime(reader["created_date"].ToString()),
+                        modified_by = reader["modified_by"].ToString(),
+                        modified_date = Convert.ToDateTime(reader["modified_date"].ToString()),
+                        id_kodeProdi = Convert.ToInt32(reader["id_kodeProdi"].ToString()),
+                    };
+                    registrasialumniList.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return registrasialumniList;
+        }
     }
 }
