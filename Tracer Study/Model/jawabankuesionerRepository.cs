@@ -89,5 +89,45 @@ namespace PRG_4_API.Model
             }
             return jawabankuesionermodel;
         }
+        public List<jawabankuesionerModel> getDataByPertanyaan(string id_pku)
+        {
+            List<jawabankuesionerModel> jawabankuesionerList = new List<jawabankuesionerModel>();
+
+            try
+            {
+                string query = "SELECT * FROM ts_jawabanKuesioner WHERE id_pku = @p1 AND status = 'Aktif'";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id_pku);
+                _connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    jawabankuesionerModel jawabankuesioner = new jawabankuesionerModel
+                    {
+                        id_jawabanKuesioner = reader["id_jawabanKuesioner"].ToString(),
+                        id_pku = reader["id_pku"].ToString(),
+                        deskripsiJawaban = reader["deskripsiJawaban"].ToString(),
+                        kode = reader["kode"].ToString(),
+                        nilaiJawaban = reader["nilaiJawaban"].ToString(),
+                        textbox = reader["textbox"].ToString(),
+                        created_by = reader["created_by"].ToString(),
+                        created_date = Convert.ToDateTime(reader["created_date"].ToString()),
+                        modified_by = reader["modified_by"].ToString(),
+                        modified_date = Convert.ToDateTime(reader["modified_date"].ToString()),
+                        status = reader["status"].ToString(),
+                    };
+                    jawabankuesionerList.Add(jawabankuesioner);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return jawabankuesionerList;
+        }
     }
 }

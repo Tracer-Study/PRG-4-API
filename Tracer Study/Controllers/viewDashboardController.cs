@@ -30,18 +30,18 @@ namespace PRG_4_API.Controllers
             catch (Exception ex)
             {
                 response.status = 500;
-                response.message = "Failed";
+                response.message = "Failed + " + ex.Message;
             }
             return Ok(response);
         }
         [HttpGet("/GetAllRegistrasiAlumniByStatus", Name = "GetAllRegistrasiAlumniByStatus")]
-        public IActionResult GetAllRegistrasiAlumniByStatus()
+        public IActionResult GetAllRegistrasiAlumniByStatus(int year)
         {
             try
             {
                 response.status = 200;
                 response.message = "Success";
-                response.data = _viewRepository.getAllDataByStatus();
+                response.data = _viewRepository.getAllDataByStatus(year);
             }
             catch (Exception ex)
             {
@@ -114,6 +114,22 @@ namespace PRG_4_API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("/GetPengisianKuesionerByYear", Name = "GetPengisianKuesionerByYear")]
+        public IActionResult GetPengisianKuesionerByYear(int year)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _viewRepository.getPengisianKuesionerByYear(year);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
         [HttpGet("/GetDataRegistrasiAlumniBelumVerifikasi", Name = "GetDataRegistrasiAlumniBelumVerifikasi")]
         public IActionResult GetDataRegistrasiAlumniBelumVerifikasi()
         {
@@ -122,6 +138,38 @@ namespace PRG_4_API.Controllers
                 response.status = 200;
                 response.message = "Success";
                 response.data = _registrasialumniRepository.getDataRegistrasiAlumniBelumVerifikasi();
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+        [HttpGet("/GetDataPengisianKuesionerAlumni", Name = "GetDataPengisianKuesionerAlumni")]
+        public IActionResult GetDataPengisianKuesionerAlumni(string nim)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _viewRepository.getDetailPengisianKuesionerAlumni(nim);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+        [HttpGet("/GetDataAkunBelumVerifikasi", Name = "GetDataAkunBelumVerifikasi")]
+        public IActionResult GetDataAkunBelumVerifikasi(int year)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _viewRepository.getDetailAkunBelumVerifikasi(year);
             }
             catch (Exception ex)
             {

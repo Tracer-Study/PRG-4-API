@@ -46,6 +46,22 @@ namespace PRG_4_API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("/GetJawabanKuesionerByPertanyaan", Name = "GetJawabanKuesionerByPertanyaan")]
+        public IActionResult GetJawabanKuesionerByPertanyaan(string id_pku)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _jawabankuesionerRepository.getDataByPertanyaan(id_pku);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed, " + ex;
+            }
+            return Ok(response);
+        }
 
         public IActionResult Index()
         {

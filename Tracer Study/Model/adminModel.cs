@@ -4,6 +4,7 @@ namespace PRG_4_API.Model
 {
     public class adminModel
     {
+        [Key]
         [Required(ErrorMessage = "ID wajib diisi.")]
         [MaxLength(5, ErrorMessage = "ID maksimal 5 karakter.")]
         public string id_admin { get; set; }

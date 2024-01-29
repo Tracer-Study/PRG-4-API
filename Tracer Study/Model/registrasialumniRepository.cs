@@ -61,8 +61,6 @@ namespace PRG_4_API.Model
             return registrasialumniList;
         }
 
-        
-
         public registrasialumniModel getData(int id)
         {
             registrasialumniModel registrasialumnimodel = new registrasialumniModel();
@@ -155,6 +153,46 @@ namespace PRG_4_API.Model
                 Console.WriteLine(ex.Message);
             }
             return registrasialumniList;
+        }
+        public void updateStatusDiterima(int id, string namaAdmin)
+        {
+            try
+            {
+                string query = "ts_UpdateAlumniDiterima";
+
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@namaAdmin", namaAdmin);
+
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void updateStatusDitolak(int id, string namaAdmin)
+        {
+            try
+            {
+                string query = "ts_UpdateAlumniDitolak";
+
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@namaAdmin", namaAdmin);
+
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

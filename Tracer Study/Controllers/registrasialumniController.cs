@@ -46,6 +46,39 @@ namespace PRG_4_API.Controllers
             }
             return Ok(response);
         }
+        
+        [HttpPut("/UpdateStatusDiterima", Name = "UpdateStatusDiterima")]
+        public IActionResult UpdateStatusDiterima(int id, string namaAdmin)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Akun Alumni Diterima.";
+                _registrasialumniRepository.updateStatusDiterima(id, namaAdmin);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed, " + ex;
+            }
+            return Ok(response);
+        }
+        [HttpPut("/UpdateStatusDitolak", Name = "UpdateStatusDitolak")]
+        public IActionResult UpdateStatusDitolak(int id, string namaAdmin)
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Akun Alumni Ditolak.";
+                _registrasialumniRepository.updateStatusDitolak(id, namaAdmin);
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed, " + ex;
+            }
+            return Ok(response);
+        }
 
         public IActionResult Index()
         {

@@ -4,6 +4,7 @@ namespace PRG_4_API.Model
 {
     public class registrasialumniModel
     {
+        [Key]
         [Required(ErrorMessage = "Wajib diisi.")]
         public int id { get; set; }
 

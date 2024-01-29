@@ -1,4 +1,6 @@
 ﻿using System.Data.SqlClient;
+using System.Data;
+using System.Collections.Generic;
 
 namespace PRG_4_API.Model
 {
@@ -82,6 +84,41 @@ namespace PRG_4_API.Model
                 pertanyaankuesionermodel.modified_date = Convert.ToDateTime(reader["modified_date"].ToString());
                 pertanyaankuesionermodel.status = reader["status"].ToString();
 
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return pertanyaankuesionermodel;
+        }
+        public List<hasilPertanyaanModel> getHasilPertanyaan(string id_pku)
+        {
+            List<hasilPertanyaanModel> pertanyaankuesionermodel = new List<hasilPertanyaanModel>();
+            try
+            {
+                string query = "ts_getHasilPertanyaan";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@query", id_pku);
+                _connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    hasilPertanyaanModel pertanyaankuesioner = new hasilPertanyaanModel
+                    {
+                        id_pku = reader["id_pku"].ToString(),
+                        deskripsiPertanyaan = reader["deskripsiPertanyaan"].ToString(),
+                        kode = reader["kode"].ToString(),
+                        jawabanKuesioner = reader["jawabanKuesioner"].ToString(),
+                        jumlahKoresponden = Convert.ToInt32(reader["jumlahKoresponden"].ToString())
+                    };
+                    pertanyaankuesionermodel.Add(pertanyaankuesioner);
+                }
+                
                 reader.Close();
                 _connection.Close();
             }
