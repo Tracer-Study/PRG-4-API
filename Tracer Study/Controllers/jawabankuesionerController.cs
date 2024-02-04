@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PRG_4_API.Model;
 
 namespace PRG_4_API.Controllers
 {
+    [Authorize]
     public class jawabankuesionerController : Controller
     {
         private readonly jawabankuesionerRepository _jawabankuesionerRepository;
