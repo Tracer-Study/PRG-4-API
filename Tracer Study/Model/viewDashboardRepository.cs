@@ -331,6 +331,92 @@ namespace PRG_4_API.Model
             }
             return isiKuesionerAlumni;
         }
+        public List<yearCount> getJenisKuesioner()
+        {
+            List<yearCount> isiKuesionerAlumni = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("SELECT id_detailPeriode, COALESCE(CONCAT(jenis_kuesioner, ' - ', periode), ' - ') AS 'jenis_periode' FROM ts_detailJenisPeriode", _connection);
+                
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        count = Convert.ToInt32(reader["id_detailPeriode"].ToString()),
+                        value = reader["jenis_periode"].ToString()
+                    };
+                    isiKuesionerAlumni.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return isiKuesionerAlumni;
+        }
+        public List<yearCount> getJenisPertanyaan()
+        {
+            List<yearCount> isiKuesionerAlumni = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("SELECT jenis FROM ts_pertanyaanKuesioner GROUP BY jenis", _connection);
+                
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        value = reader["jenis"].ToString()
+                    };
+                    isiKuesionerAlumni.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return isiKuesionerAlumni;
+        }
+        
+        public List<yearCount> getPertanyaanKuesioner()
+        {
+            List<yearCount> isiKuesionerAlumni = new List<yearCount>();
+
+            try
+            {
+                _connection.Open();
+
+                SqlCommand command = new SqlCommand("SELECT jenis FROM ts_pertanyaanKuesioner GROUP BY jenis", _connection);
+                
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    yearCount registrasialumni = new yearCount
+                    {
+                        value = reader["jenis"].ToString()
+                    };
+                    isiKuesionerAlumni.Add(registrasialumni);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return isiKuesionerAlumni;
+        }
         
     }
 }

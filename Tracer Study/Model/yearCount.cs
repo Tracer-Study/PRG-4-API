@@ -4,6 +4,6 @@
     {
         public string value { get; set; }
         public string valueName { get; set; } = "-";
-        public int count { get; set; }
+        public int count { get; set; } = 0;
     }
 }

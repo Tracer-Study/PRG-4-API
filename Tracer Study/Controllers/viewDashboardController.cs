@@ -178,5 +178,37 @@ namespace PRG_4_API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("/GetJenisKuesioner", Name = "GetJenisKuesioner")]
+        public IActionResult GetJenisKuesioner()
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _viewRepository.getJenisKuesioner();
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
+        [HttpGet("/GetJenisPertanyaan", Name = "GetJenisPertanyaan")]
+        public IActionResult GetJenisPertanyaan()
+        {
+            try
+            {
+                response.status = 200;
+                response.message = "Success";
+                response.data = _viewRepository.getJenisPertanyaan();
+            }
+            catch (Exception ex)
+            {
+                response.status = 500;
+                response.message = "Failed";
+            }
+            return Ok(response);
+        }
     }
 }

@@ -17,13 +17,16 @@ namespace PRG_4_API.Model
             _connection = new SqlConnection(_connectionString);
         }
 
-        public List<pertanyaankuesionerModel> getAllData()
+        public List<pertanyaankuesionerJoin> getAllData()
         {
-            List<pertanyaankuesionerModel> pertanyaankuesionerList = new List<pertanyaankuesionerModel>();
+            List<pertanyaankuesionerJoin> pertanyaankuesionerList = new List<pertanyaankuesionerJoin>();
 
             try
             {
-                string query = "SELECT * FROM ts_pertanyaanKuesioner";
+                string query = "SELECT pk.id_pku, pk.deskripsiPertanyaan, pk.jenis, pk.kode, pk.id_detailPeriode, " +
+                    "CONCAT(jp.jenis_kuesioner, ' - ', jp.periode) AS jenisPeriode, pk.pertanyaan_utama, pk.no_urutan, pk.status " +
+                    "FROM ts_pertanyaanKuesioner pk JOIN ts_detailJenisPeriode jp ON pk.id_detailPeriode = jp.id_detailPeriode " +
+                    "ORDER BY pk.id_detailPeriode ASC";
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
 
@@ -31,19 +34,16 @@ namespace PRG_4_API.Model
                 while (reader.Read())
                 {
 
-                    pertanyaankuesionerModel pertanyaankuesioner = new pertanyaankuesionerModel
+                    pertanyaankuesionerJoin pertanyaankuesioner = new pertanyaankuesionerJoin
                     {
                         id_pku = reader["id_pku"].ToString(),
                         deskripsiPertanyaan = reader["deskripsiPertanyaan"].ToString(),
                         jenis = reader["jenis"].ToString(),
                         kode = reader["kode"].ToString(),
                         id_detailPeriode = Convert.ToInt32(reader["id_detailPeriode"].ToString()),
+                        jenisPeriode = reader["jenisPeriode"].ToString(),
                         pertanyaan_utama = reader["pertanyaan_utama"].ToString(),
                         no_urutan = Convert.ToInt32(reader["no_urutan"].ToString()),
-                        created_by = reader["created_by"].ToString(),
-                        created_date = Convert.ToDateTime(reader["created_date"].ToString()),
-                        modified_by = reader["modified_by"].ToString(),
-                        modified_date = Convert.ToDateTime(reader["modified_date"].ToString()),
                         status = reader["status"].ToString(),
                     };
                     pertanyaankuesionerList.Add(pertanyaankuesioner);
@@ -115,6 +115,41 @@ namespace PRG_4_API.Model
                         kode = reader["kode"].ToString(),
                         jawabanKuesioner = reader["jawabanKuesioner"].ToString(),
                         jumlahKoresponden = Convert.ToInt32(reader["jumlahKoresponden"].ToString())
+                    };
+                    pertanyaankuesionermodel.Add(pertanyaankuesioner);
+                }
+                
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return pertanyaankuesionermodel;
+        }
+        public List<hasilPertanyaanModel> getHasilPertanyaanTable(string id_pku)
+        {
+            List<hasilPertanyaanModel> pertanyaankuesionermodel = new List<hasilPertanyaanModel>();
+            try
+            {
+                string query = "ts_getHasilPertanyaanTable";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@query", id_pku);
+                _connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    hasilPertanyaanModel pertanyaankuesioner = new hasilPertanyaanModel
+                    {
+                        id_pku = reader["id_pku"].ToString(),
+                        deskripsiPertanyaan = reader["deskripsiPertanyaan"].ToString(),
+                        kode = reader["kode"].ToString(),
+                        jawabanKuesioner = reader["jawabanKuesioner"].ToString(),
+                        jumlahKoresponden = 0
                     };
                     pertanyaankuesionermodel.Add(pertanyaankuesioner);
                 }
